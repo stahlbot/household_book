@@ -163,11 +163,11 @@ export default function Nav(props) {
             <ListItemIcon><AccountBalanceIcon/></ListItemIcon>
             <ListItemText>Accounts</ListItemText>
           </ListItem>
-          <ListItem button key={'Calender'}>
+          <ListItem button key={'Calender'} component={Link} to={'/calender'}>
             <ListItemIcon><DateRangeIcon/></ListItemIcon>
             <ListItemText>Calender</ListItemText>
           </ListItem>
-          <ListItem button key={'Settings'}>
+          <ListItem button key={'Settings'} component={Link} to={'/settings'}>
             <ListItemIcon><SettingsIcon/></ListItemIcon>
             <ListItemText>Settings</ListItemText>
           </ListItem>

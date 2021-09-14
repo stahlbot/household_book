@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from "./Nav";
 import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
-import Accounts from "./Accounts";
+import Accounts from "./Accounts/Accounts";
 import Overview from "./Overview";
 import Settings from "./Settings";
 import Calender from "./Calender";

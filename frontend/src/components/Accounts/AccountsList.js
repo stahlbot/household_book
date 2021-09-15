@@ -28,6 +28,7 @@ export default function AccountsList(props) {
 
     const [state, setState] = useState({accounts: []});
 
+    // get all accounts when the page is rendered
     useEffect(() => {
         fetch("api/get-accounts")
             .then((response) => response.json())
@@ -36,7 +37,27 @@ export default function AccountsList(props) {
             });
     }, []);
 
+    // renders a entry in the table for a given account. also sends the DELETE-Request when the entry is deleted
     const showAccount = (account) => {
+        function handleDelete() {
+            console.log("delete it")
+            const requestOptions = {
+            method: "DELETE",
+        };
+            return fetch("/api/account/" + account.id, requestOptions)
+                .then((response) => {
+                    // when deletion worked, remove the account from the state
+                    if (response.ok){
+                        const array = [...state.accounts];
+                        const index = array.indexOf(account);
+                        if (index !== 1){
+                            array.splice(index, 1)
+                            setState({accounts: array})
+                        }
+                    }
+                })
+        }
+
         return (
             <TableRow>
                 <TableCell>{account.id}</TableCell>
@@ -45,7 +66,7 @@ export default function AccountsList(props) {
                 <TableCell>{account.created_at}</TableCell>
                 <TableCell>
                     <IconButton>
-                        <DeleteOutlineOutlinedIcon style={{color: "red"}}/>
+                        <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>
                     </IconButton>
                 </TableCell>
             </TableRow>

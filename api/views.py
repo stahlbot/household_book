@@ -1,9 +1,10 @@
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 
 # Create your views here.
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import generics, status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -32,7 +33,6 @@ class GetAccounts(APIView):
 
 
 class CreateAccount(APIView):
-    # serializer_class = CreateAccountSerializer
 
     def post(self, request, format=None):
         print("saving new account")
@@ -46,3 +46,16 @@ class CreateAccount(APIView):
             return Response(AccountSerializer(account).data, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AccountDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Account.objects.get(pk=pk)
+        except Account.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, pk, format=None):
+        account = self.get_object(pk)
+        account.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

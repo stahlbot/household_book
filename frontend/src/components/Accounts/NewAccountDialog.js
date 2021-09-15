@@ -11,8 +11,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
+        minWidth: 200,
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -73,14 +72,14 @@ export default function NewAccountDialog(props) {
     return (
         <React.Fragment>
             <Dialog open={props.dialog.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Add a new Account</DialogTitle>
+                <DialogTitle id="form-dialog-title">{props.dialog.edit ? "Edit Account" : "Add a new Account"}</DialogTitle>
                 <DialogContent>
 
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="name"
+                        label="Name"
                         type="text"
                         required={true}
                         onChange={updateInput}

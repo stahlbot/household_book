@@ -108,6 +108,7 @@ export default function AccountsList(props) {
             open: true,
             edit: false,
         });
+        setAccount({});
     };
 
     const handleClickEdit = (account) => {

@@ -87,7 +87,7 @@ export default function NewAccountDialog(props) {
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.handleClose} color="primary">
+                    <Button onClick={props.handleClose} type={"submit"} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleSave} color="primary">

@@ -15,6 +15,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
 import NewAccountDialog from "./NewAccountDialog";
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 const useStyles = makeStyles({
     table: {
@@ -42,6 +43,11 @@ export default function AccountsList(props) {
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
                 <TableCell>{account.created_at}</TableCell>
+                <TableCell>
+                    <IconButton>
+                        <DeleteOutlineOutlinedIcon style={{color: "red"}}/>
+                    </IconButton>
+                </TableCell>
             </TableRow>
         )
 
@@ -83,6 +89,7 @@ export default function AccountsList(props) {
                             <TableCell>Name</TableCell>
                             <TableCell>Type</TableCell>
                             <TableCell>Created At</TableCell>
+                            <TableCell/>
                         </TableRow>
                     </TableHead>
                     <TableBody>

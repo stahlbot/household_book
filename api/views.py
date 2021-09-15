@@ -60,7 +60,7 @@ class AccountDetail(APIView):
         account.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def put(self, request, pk, format=None):
+    def patch(self, request, pk, format=None):
         account = self.get_object(pk)
         serializer = AccountSerializer(account, data=request.data)
         if serializer.is_valid():

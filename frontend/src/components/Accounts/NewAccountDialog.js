@@ -22,39 +22,57 @@ const useStyles = makeStyles((theme) => ({
 export default function NewAccountDialog(props) {
     const classes = useStyles();
 
-    const [input, setInput] = useState({
-        Name: "Hi",
-        Type: "AS"
-    })
-
     const handleSave = () => {
-        const requestOptions = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                name: input.Name,
-                account_type: input.Type
-            }),
-        };
-        fetch("/api/create-account", requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                props.onSave(data)
-            });
+        console.log(props.dialog.edit)
+        if (props.dialog.edit) {
+            const requestOptions = {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    name: props.account.name,
+                    account_type: props.account.account_type
+                }),
+            };
+            fetch("/api/account/" + props.account.id, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    props.setDialog({
+                        open: false
+                    })
+
+                });
+
+        } else {
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    name: props.account.name,
+                    account_type: props.account.account_type
+                }),
+            };
+            fetch("/api/create-account", requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    props.onSaveNew(data)
+                });
+
+        }
 
     };
 
     const updateInput = (event) => {
-        setInput({
-            ...input,
+        props.setAccount({
+            ...props.account,
             [event.target.name]: event.target.value,
         });
-        console.log(input)
+        console.log(props.account)
     }
 
     return (
         <React.Fragment>
-            <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={props.dialog.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add a new Account</DialogTitle>
                 <DialogContent>
 
@@ -62,22 +80,22 @@ export default function NewAccountDialog(props) {
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Name"
+                        label="name"
                         type="text"
                         required={true}
                         onChange={updateInput}
-                        name={"Name"}
-                        value={input.Name}
+                        name={"name"}
+                        value={props.account.name}
                         fullWidth
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Account Type</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={input.Type}
+                            value={props.account.account_type}
                             onChange={updateInput}
-                            name={"Type"}
+                            name={"account_type"}
                         >
                             <MenuItem value={"AS"}>Asset</MenuItem>
                             <MenuItem value={"LI"}>Liability</MenuItem>

@@ -28,6 +28,7 @@ export default function AccountsList(props) {
     const classes = useStyles();
 
     const [state, setState] = useState({accounts: []});
+    const [account, setAccount] = useState({});
 
     // get all accounts when the page is rendered
     useEffect(() => {
@@ -87,7 +88,7 @@ export default function AccountsList(props) {
                         <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>
                     </IconButton>
                     <IconButton>
-                        <EditOutlinedIcon color={"secondary"} onClick={handleClickOpen}/>
+                        <EditOutlinedIcon color={"secondary"} onClick={() => handleClickEdit(account)}/>
                     </IconButton>
                 </TableCell>
             </TableRow>
@@ -96,31 +97,54 @@ export default function AccountsList(props) {
     }
 
     // State for the new Account form dialog
-    const [open, setOpen] = React.useState(false);
+    const [dialog, setDialog] = React.useState({
+        open: false,
+        edit: false,
+    });
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickNew = () => {
+        setDialog({
+            ...dialog,
+            open: true,
+            edit: false,
+        });
+    };
+
+    const handleClickEdit = (account) => {
+        console.log(account.account_type)
+        setDialog({
+            open: true,
+            edit: true,
+        });
+        setAccount(account);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setDialog({
+            ...dialog,
+            open: false,
+        });
     };
 
     const saveNewAccount = (acc) => {
         let accounts = state.accounts
         accounts.push(acc)
         setState({accounts: accounts})
-        setOpen(false);
+
+        setDialog({
+            ...dialog,
+            open: false,
+        });
     }
 
 
     return (
         <Paper>
             <Toolbar >
-                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>} onClick={handleClickOpen}>
+                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>} onClick={handleClickNew}>
                     New
                 </Button>
-                <NewAccountDialog handleClose={handleClose} open={open} onSave={saveNewAccount}/>
+                <NewAccountDialog handleClose={handleClose} onSaveNew={saveNewAccount} setDialog={setDialog} dialog={dialog} setAccount={setAccount} account={account}/>
             </Toolbar>
             <TableContainer>
                 <Table className={classes.table} aria-label={"accounts"}>

@@ -32,7 +32,7 @@ export default function AccountsList(props) {
             .then((response) => response.json())
             .then((data) => {
                 setState({accounts: data, am: data.length})
-            })
+            });
     }, []);
 
     const showAccount = (account) => {
@@ -40,6 +40,7 @@ export default function AccountsList(props) {
             <TableRow>
                 <TableCell>{account.id}</TableCell>
                 <TableCell>{account.name}</TableCell>
+                <TableCell>{account.get_account_type_display}</TableCell>
                 <TableCell>{account.created_at}</TableCell>
             </TableRow>
         )
@@ -80,6 +81,7 @@ export default function AccountsList(props) {
                         <TableRow>
                             <TableCell>ID</TableCell>
                             <TableCell>Name</TableCell>
+                            <TableCell>Type</TableCell>
                             <TableCell>Created At</TableCell>
                         </TableRow>
                     </TableHead>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Paper,
@@ -14,6 +14,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
+import NewAccountDialog from "./NewAccountDialog";
 
 const useStyles = makeStyles({
     table: {
@@ -23,6 +24,16 @@ const useStyles = makeStyles({
 
 export default function AccountsList(props) {
     const classes = useStyles();
+
+    const [state, setState] = useState({accounts: []});
+
+    useEffect(() => {
+        fetch("api/get-accounts")
+            .then((response) => response.json())
+            .then((data) => {
+                setState({accounts: data, am: data.length})
+            })
+    }, []);
 
     const showAccount = (account) => {
         return (
@@ -35,13 +46,32 @@ export default function AccountsList(props) {
 
     }
 
+    // State for the new Account form dialog
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const saveNewAccount = (acc) => {
+        let accounts = state.accounts
+        accounts.push(acc)
+        setState({accounts: accounts})
+        setOpen(false);
+    }
+
 
     return (
         <Paper>
             <Toolbar >
-                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>}>
+                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>} onClick={handleClickOpen}>
                     New
                 </Button>
+                <NewAccountDialog handleClose={handleClose} open={open} onSave={saveNewAccount}/>
             </Toolbar>
             <TableContainer>
                 <Table className={classes.table} aria-label={"accounts"}>
@@ -54,7 +84,7 @@ export default function AccountsList(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.accounts.map(showAccount)}
+                        {state.accounts.map(showAccount)}
                     </TableBody>
                 </Table>
             </TableContainer>

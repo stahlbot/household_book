@@ -16,6 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
 import NewAccountDialog from "./NewAccountDialog";
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 const useStyles = makeStyles({
     table: {
@@ -39,6 +40,8 @@ export default function AccountsList(props) {
 
     // renders a entry in the table for a given account. also sends the DELETE-Request when the entry is deleted
     const showAccount = (account) => {
+
+        // for deleting an entry
         function handleDelete() {
             console.log("delete it")
             const requestOptions = {
@@ -58,6 +61,21 @@ export default function AccountsList(props) {
                 })
         }
 
+        // for editing an entry
+        function handleUpdate() {
+            console.log("update it")
+            const requestOptions = {
+            method: "PUT",
+        };
+            return fetch("/api/account/" + account.id, requestOptions)
+                .then((response) => {
+                    // when deletion worked, remove the account from the state
+                    if (response.ok){
+                        console.log("updated it")
+                    }
+                })
+        }
+
         return (
             <TableRow>
                 <TableCell>{account.id}</TableCell>
@@ -67,6 +85,9 @@ export default function AccountsList(props) {
                 <TableCell>
                     <IconButton>
                         <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>
+                    </IconButton>
+                    <IconButton>
+                        <EditOutlinedIcon color={"secondary"} onClick={handleClickOpen}/>
                     </IconButton>
                 </TableCell>
             </TableRow>

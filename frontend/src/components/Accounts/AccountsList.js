@@ -8,8 +8,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Toolbar,
-    Tooltip, Typography
+    Toolbar
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -35,7 +34,7 @@ export default function AccountsList(props) {
         fetch("api/get-accounts")
             .then((response) => response.json())
             .then((data) => {
-                setState({accounts: data, am: data.length})
+                setState({accounts: data})
             });
     }, []);
 
@@ -46,15 +45,15 @@ export default function AccountsList(props) {
         function handleDelete() {
             console.log("delete it")
             const requestOptions = {
-            method: "DELETE",
-        };
+                method: "DELETE",
+            };
             return fetch("/api/account/" + account.id, requestOptions)
                 .then((response) => {
                     // when deletion worked, remove the account from the state
-                    if (response.ok){
+                    if (response.ok) {
                         const array = [...state.accounts];
                         const index = array.indexOf(account);
-                        if (index !== 1){
+                        if (index !== 1) {
                             array.splice(index, 1)
                             setState({accounts: array})
                         }
@@ -66,12 +65,12 @@ export default function AccountsList(props) {
         function handleUpdate() {
             console.log("update it")
             const requestOptions = {
-            method: "PUT",
-        };
+                method: "PUT",
+            };
             return fetch("/api/account/" + account.id, requestOptions)
                 .then((response) => {
                     // when deletion worked, remove the account from the state
-                    if (response.ok){
+                    if (response.ok) {
                         console.log("updated it")
                     }
                 })
@@ -138,14 +137,25 @@ export default function AccountsList(props) {
         });
     }
 
+    // TODO: hacky Solution for updating the table when editing an entry, without fetch would be nice
+    const updateList = () => {
+        fetch("api/get-accounts")
+            .then((response) => response.json())
+            .then((data) => {
+                setState({accounts: data})
+            });
+    }
+
 
     return (
         <Paper>
-            <Toolbar >
-                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>} onClick={handleClickNew}>
+            <Toolbar>
+                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>}
+                        onClick={handleClickNew}>
                     New
                 </Button>
-                <NewAccountDialog handleClose={handleClose} onSaveNew={saveNewAccount} setDialog={setDialog} dialog={dialog} setAccount={setAccount} account={account}/>
+                <NewAccountDialog handleClose={handleClose} onSaveNew={saveNewAccount} setDialog={setDialog}
+                                  dialog={dialog} setAccount={setAccount} account={account} updateList={updateList}/>
             </Toolbar>
             <TableContainer>
                 <Table className={classes.table} aria-label={"accounts"}>

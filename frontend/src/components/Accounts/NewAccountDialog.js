@@ -39,7 +39,7 @@ export default function NewAccountDialog(props) {
                     props.setDialog({
                         open: false
                     })
-
+                    props.updateList()
                 });
 
         } else {

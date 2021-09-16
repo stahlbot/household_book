@@ -1,4 +1,7 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
@@ -7,15 +10,10 @@ from django.db import models
 class Booking(models.Model):
     amount = models.FloatField(null=False)
     offsetting_account = models.ForeignKey("Account", models.CASCADE, null=False, related_name="offsetting_account")
-    date = models.DateField(null=False)
+    date = models.DateField(null=False, default=timezone.now().date())
     account = models.ForeignKey("Account", models.CASCADE, null=False)
     text = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-def getName(acc):
-    print("setting default")
-
 
 
 class Account(models.Model):
@@ -41,6 +39,3 @@ class Account(models.Model):
 
     def __str__(self):
         return self.name
-
-
-

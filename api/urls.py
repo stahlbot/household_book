@@ -7,4 +7,5 @@ urlpatterns = [
     path('get-accounts', GetAccounts.as_view()),
     path('create-account', CreateAccount.as_view()),
     path('account/<int:pk>', AccountDetail.as_view()),
+    path('create-booking', CreateBooking.as_view()),
 ]

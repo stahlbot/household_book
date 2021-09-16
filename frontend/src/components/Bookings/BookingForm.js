@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {FormControl, FormHelperText, Input, InputLabel, makeStyles, OutlinedInput} from "@material-ui/core";
+import {Button, makeStyles} from "@material-ui/core";
 import {Form, useForm} from "../useForm";
 import Controls from "../controls/Controls";
 import Grid from "@material-ui/core/Grid";
-import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import {format} from "date-fns";
 
 const initialFValues = {
     amount: undefined,
@@ -15,14 +14,14 @@ const initialFValues = {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-  },
-  paper: {
-    height: 140,
-    width: 100,
-  },
+    root: {
+        flexGrow: 1,
+        padding: theme.spacing(1),
+    },
+    paper: {
+        height: 140,
+        width: 100,
+    },
 
 }));
 
@@ -43,7 +42,6 @@ export default function BookingForm() {
     } = useForm(initialFValues);
 
     useEffect(() => {
-        console.log("lol")
         fetch("api/get-accounts")
             .then((response) => response.json())
             .then((data) => {
@@ -56,9 +54,30 @@ export default function BookingForm() {
         return <div>Loading...</div>;
     }
 
+    const handleSave = () => {
+        console.log(values)
+        const requestOptions = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                amount: values.amount,
+                offsetting_account: values.offsettingAccount,
+                date: format(values.date, 'yyyy-MM-dd'),
+                account: values.account,
+                text: values.text,
+            }),
+        };
+        fetch("/api/create-booking", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                // props.onSaveNew(data)
+                console.log(data)
+            });
+    }
+
     return (
         <Form>
-            <Grid container spacing={1} justifyContent="flex-start" className={classes.root}>
+            <Grid container spacing={1} justifyContent="flex-start" className={classes.root} alignItems={"center"}>
                 <Grid item xs={1}>
                     <Controls.Input
                         name="amount"
@@ -89,13 +108,13 @@ export default function BookingForm() {
                     <Controls.Select
                         name="account"
                         label="Account"
-                        value={values.offsettingAccount}
+                        value={values.account}
                         onChange={handleInputChange}
                         options={accounts}
                         optiontext={"name"}
                     />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                     <Controls.Input
                         fullWidth
                         name="text"
@@ -104,7 +123,14 @@ export default function BookingForm() {
                         onChange={handleInputChange}
                     />
                 </Grid>
+                <Grid item xs={1}>
+                    <Button variant={"contained"} color={"primary"} size={"large"} fullWidth
+                            onClick={handleSave}>
+                        Save
+                    </Button>
+                </Grid>
             </Grid>
+
 
         </Form>
 

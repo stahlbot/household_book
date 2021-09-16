@@ -7,11 +7,6 @@ export default function Select(props) {
     const { name, label, value, onChange, options, optiontext, ...other } = props;
 
 
-    useEffect(() =>{
-        console.log(options)
-        console.log(optiontext)
-    },[])
-
     return (
         <FormControl variant="outlined" fullWidth={true}>
             <InputLabel>{label}</InputLabel>

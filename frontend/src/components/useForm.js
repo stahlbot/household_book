@@ -13,7 +13,6 @@ export function useForm(initialFValues) {
             ...values,
             [name]: value
         })
-        console.log(values)
     }
 
     const resetForm = () => {
@@ -37,8 +36,12 @@ export function useForm(initialFValues) {
 const useStyles = makeStyles(theme => ({
     root: {
         '& .MuiFormControl-root': {
-            width: '80%',
-            margin: theme.spacing(1)
+            // width: '40%',
+            // margin: theme.spacing(1)
+        },
+        '& .MuiSelect-root': {
+            // width: '400%',
+            // margin: theme.spacing(1)
         }
     }
 }))

@@ -17,6 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import SettingsIcon from '@material-ui/icons/Settings';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 import PieChartIcon from '@material-ui/icons/PieChart';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
@@ -161,8 +162,8 @@ export default function Nav(props) {
             <ListItemIcon><AccountBalanceIcon/></ListItemIcon>
             <ListItemText>Accounts</ListItemText>
           </ListItem>
-          <ListItem button key={'Calender'} component={Link} to={'/calender'}>
-            <ListItemIcon><DateRangeIcon/></ListItemIcon>
+          <ListItem button key={'Bookings'} component={Link} to={'/bookings'}>
+            <ListItemIcon><MenuBookIcon/></ListItemIcon>
             <ListItemText>Calender</ListItemText>
           </ListItem>
           <ListItem button key={'Settings'} component={Link} to={'/settings'}>

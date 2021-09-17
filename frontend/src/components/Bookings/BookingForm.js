@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function BookingForm() {
+export default function BookingForm(props) {
     const classes = useStyles();
 
     const [accounts, setAccounts] = useState()
@@ -70,7 +70,7 @@ export default function BookingForm() {
             .then((response) => response.json())
             .then((data) => {
                 // props.onSaveNew(data)
-                console.log(data)
+                props.onSave(data)
             });
     }
 

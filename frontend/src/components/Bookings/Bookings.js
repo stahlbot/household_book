@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import BookingForm from "./Bookings/BookingForm";
-import BookingList from "./Bookings/BookingList";
+import BookingForm from "./BookingForm";
+import BookingList from "./BookingList";
 import {Grid} from "@material-ui/core";
 
-export default function Calender() {
-    const [bookings, setBookings] = useState([{
+export default function Bookings() {
+    const [bookings, setBookings] = useState({arrayvar: [{
         "amount":0,
         "offsetting_account":{
             "id":0,
@@ -19,7 +19,7 @@ export default function Calender() {
             "created_at":"",
             "account_type":"",
             "get_account_type_display":""},
-        "text":""}]);
+        "text":""}]});
 
     useEffect(() => {
         const requestOptions = {
@@ -28,16 +28,21 @@ export default function Calender() {
         fetch("api/bookings", requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                setBookings(data);
-                console.log(data[0].account.name)
+                setBookings({arrayvar: data});
             });
     }, []);
+
+    const onSave = (booking) => {
+        setBookings({
+            arrayvar: [booking, ...bookings.arrayvar]
+        })
+    }
 
     return (
         <React.Fragment>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <BookingForm bookings={bookings} setBookings={setBookings}/>
+                    <BookingForm bookings={bookings} onSave={onSave}/>
                 </Grid>
                 <Grid item xs={12}>
                     <BookingList bookings={bookings}/>

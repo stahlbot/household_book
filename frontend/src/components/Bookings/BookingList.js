@@ -26,7 +26,7 @@ export default function BookingList(props) {
                 <CardContent>
                     <Table>
                         <TableBody>
-                            {props.bookings.map(showBooking)}
+                            {props.bookings.arrayvar.map(showBooking)}
                         </TableBody>
                     </Table>
                 </CardContent>

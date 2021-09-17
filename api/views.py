@@ -73,10 +73,17 @@ class AccountDetail(APIView):
 class CreateBooking(APIView):
     def post(self, request, format=None):
         serializer = CreateBookingSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            # modify the response data in such way that not only the primary key of an account is sent
+            response = serializer.data
+            off_acc = Account.objects.filter(pk=response['offsetting_account']).first()
+            acc = Account.objects.filter(pk=response['account']).first()
+            response['offsetting_account'] = AccountSerializer(off_acc).data
+            response['account'] = AccountSerializer(acc).data
+
+            return Response(response, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 

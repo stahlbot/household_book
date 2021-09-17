@@ -94,3 +94,25 @@ class BookingList(APIView):
         serializer = GetBookingsSerializer(bookings, many=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class BookingDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Booking.objects.get(pk=pk)
+        except Booking.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, pk, format=None):
+        booking = self.get_object(pk)
+        booking.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, pk, format=None):
+        booking = self.get_object(pk)
+        serializer = AccountSerializer(booking, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

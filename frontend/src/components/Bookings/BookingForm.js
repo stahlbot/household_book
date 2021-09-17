@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BookingForm(props) {
     const classes = useStyles();
 
-    const [accounts, setAccounts] = useState()
-    const [isLoading, setLoading] = useState(true);
+
 
     const {
         values,
@@ -41,18 +40,9 @@ export default function BookingForm(props) {
         resetForm
     } = useForm(initialFValues);
 
-    useEffect(() => {
-        fetch("api/get-accounts")
-            .then((response) => response.json())
-            .then((data) => {
-                setAccounts(data);
-                setLoading(false);
-            });
-    }, []);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+
+
 
     const handleSave = () => {
         const requestOptions = {
@@ -77,7 +67,7 @@ export default function BookingForm(props) {
     return (
 
         <Card className={classes.root}>
-            <CardHeader title={"Make a new Booking"}/>
+            <CardHeader title={"New Booking"}/>
             <Divider/>
             <CardContent>
                 <Form>
@@ -97,7 +87,7 @@ export default function BookingForm(props) {
                                 label="Offsetting Account"
                                 value={values.offsettingAccount}
                                 onChange={handleInputChange}
-                                options={accounts}
+                                options={props.accounts}
                                 optiontext={"name"}
                             />
                         </Grid>
@@ -115,7 +105,7 @@ export default function BookingForm(props) {
                                 label="Account"
                                 value={values.account}
                                 onChange={handleInputChange}
-                                options={accounts}
+                                options={props.accounts}
                                 optiontext={"name"}
                             />
                         </Grid>

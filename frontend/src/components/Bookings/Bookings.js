@@ -5,33 +5,71 @@ import {Grid} from "@material-ui/core";
 import BookingDialog from "./BookingDialog";
 
 export default function Bookings() {
-    const [bookings, setBookings] = useState({arrayvar: [{
-        "amount":0,
-        "offsetting_account":{
-            "id":0,
-            "name":"",
-            "created_at":"",
-            "account_type":"",
-            "get_account_type_display":""},
-        "date":"",
-        "account":{
-            "id":0,
-            "name":"Bank",
-            "created_at":"",
-            "account_type":"",
-            "get_account_type_display":""},
-        "text":"",
-        "created_at":""}]});
+    const [bookings, setBookings] = useState({
+        arrayvar: [{
+            "amount": 0,
+            "offsetting_account": {
+                "id": 0,
+                "name": "",
+                "created_at": "",
+                "account_type": "",
+                "get_account_type_display": ""
+            },
+            "date": "",
+            "account": {
+                "id": 0,
+                "name": "Bank",
+                "created_at": "",
+                "account_type": "",
+                "get_account_type_display": ""
+            },
+            "text": "",
+            "created_at": ""
+        }]
+    });
 
     const [dialogState, setDialogState] = useState({
         open: false,
-        booking: {},
     })
+    const [bookingInDialog, setBookingInDialog] = useState({
+        amount: 0,
+        offsetting_account: {
+            id: 0,
+            name: "",
+            created_at: "",
+            account_type: "",
+            get_account_type_display: ""
+        },
+        date: "",
+        account: {
+            id: 0,
+            name: "Bank",
+            created_at: "",
+            account_type: "",
+            get_account_type_display: ""
+        },
+        text: "",
+        created_at: ""
+    })
+
+    const [accounts, setAccounts] = useState([])
+    const [isLoading, setLoading] = useState(true);
+
+
+
+    useEffect(() => {
+        fetch("api/get-accounts")
+            .then((response) => response.json())
+            .then((data) => {
+                setAccounts(data);
+                setLoading(false);
+            });
+    }, []);
 
     useEffect(() => {
         const requestOptions = {
-                method: "GET",
-            };
+            method: "GET",
+        };
         fetch("api/bookings", requestOptions)
             .then((response) => response.json())
             .then((data) => {
@@ -48,8 +86,8 @@ export default function Bookings() {
     const handleTableRowClick = (booking) => {
         setDialogState({
             open: true,
-            booking: booking,
         })
+        setBookingInDialog(booking)
     }
 
     const handleDialogClose = () => {
@@ -59,12 +97,17 @@ export default function Bookings() {
         })
     }
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <React.Fragment>
-            <BookingDialog dialogState={dialogState} handleDialogClose={handleDialogClose}/>
+            <BookingDialog dialogState={dialogState} handleDialogClose={handleDialogClose} accounts={accounts}
+                           booking={bookingInDialog} setBooking={setBookingInDialog}/>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <BookingForm bookings={bookings} onSave={onSave}/>
+                    <BookingForm bookings={bookings} onSave={onSave} accounts={accounts}/>
                 </Grid>
                 <Grid item xs={12}>
                     <BookingList bookings={bookings.arrayvar} handleTableRowClick={handleTableRowClick}/>

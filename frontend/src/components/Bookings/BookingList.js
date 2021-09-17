@@ -7,18 +7,12 @@ export default function BookingList(props) {
 
     const showBooking = (booking) => {
         return (
-            <TableRow onClick={() => props.handleTableRowClick(booking)}>
+            <TableRow onClick={() => props.handleTableRowClick(booking)} hover>
                 <TableCell>{booking.amount}</TableCell>
                 <TableCell>{booking.offsetting_account.name}</TableCell>
                 <TableCell>{booking.date}</TableCell>
                 <TableCell>{booking.account.name}</TableCell>
                 <TableCell>{booking.text}</TableCell>
-                <TableCell>
-                    <IconButton>
-                        <EditOutlinedIcon color={"secondary"} />
-                    </IconButton>
-                </TableCell>
-
             </TableRow>
         );
     }

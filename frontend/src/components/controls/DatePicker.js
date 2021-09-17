@@ -20,6 +20,7 @@ export default function DatePicker(props) {
                 format="MMM/dd/yyyy"
                 name={name}
                 value={value}
+                fullWidth
                 onChange={date =>onChange(convertToDefEventPara(name,date))}
 
             />

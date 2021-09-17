@@ -18,6 +18,17 @@ export default function BookingList(props) {
         );
     }
 
+    // for displaying the newest bookings first
+    const compare = ( a, b ) => {
+      if ( a.created_at < b.created_at ){
+        return 1;
+      }
+      if ( a.created_at > b.created_at ){
+        return -1;
+      }
+      return 0;
+    }
+
     return(
         <React.Fragment>
             <Card>
@@ -26,7 +37,7 @@ export default function BookingList(props) {
                 <CardContent>
                     <Table>
                         <TableBody>
-                            {props.bookings.arrayvar.map(showBooking)}
+                            {props.bookings.arrayvar.sort(compare).map(showBooking)}
                         </TableBody>
                     </Table>
                 </CardContent>

@@ -19,7 +19,8 @@ export default function Bookings() {
             "created_at":"",
             "account_type":"",
             "get_account_type_display":""},
-        "text":""}]});
+        "text":"",
+        "created_at":""}]});
 
     useEffect(() => {
         const requestOptions = {

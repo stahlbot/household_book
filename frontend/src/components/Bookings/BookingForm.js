@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, makeStyles} from "@material-ui/core";
+import {Button, Card, CardActions, CardContent, CardHeader, Divider, makeStyles} from "@material-ui/core";
 import {Form, useForm} from "../useForm";
 import Controls from "../controls/Controls";
 import Grid from "@material-ui/core/Grid";
@@ -16,7 +16,7 @@ const initialFValues = {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        padding: theme.spacing(1),
+        padding: theme.spacing(0),
     },
     paper: {
         height: 140,
@@ -55,7 +55,6 @@ export default function BookingForm() {
     }
 
     const handleSave = () => {
-        console.log(values)
         const requestOptions = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -76,63 +75,79 @@ export default function BookingForm() {
     }
 
     return (
-        <Form>
-            <Grid container spacing={1} justifyContent="flex-start" className={classes.root} alignItems={"center"}>
-                <Grid item xs={1}>
-                    <Controls.Input
-                        name="amount"
-                        label="Amount"
-                        value={values.amount}
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={2}>
-                    <Controls.Select
-                        name="offsettingAccount"
-                        label="Offsetting Account"
-                        value={values.offsettingAccount}
-                        onChange={handleInputChange}
-                        options={accounts}
-                        optiontext={"name"}
-                    />
-                </Grid>
-                <Grid item xs={2}>
-                    <Controls.DatePicker
-                        name="date"
-                        label="Date"
-                        value={values.date}
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={2}>
-                    <Controls.Select
-                        name="account"
-                        label="Account"
-                        value={values.account}
-                        onChange={handleInputChange}
-                        options={accounts}
-                        optiontext={"name"}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <Controls.Input
-                        fullWidth
-                        name="text"
-                        label="Text"
-                        value={values.text}
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={1}>
-                    <Button variant={"contained"} color={"primary"} size={"large"} fullWidth
-                            onClick={handleSave}>
-                        Save
-                    </Button>
-                </Grid>
-            </Grid>
+
+        <Card className={classes.root}>
+            <CardHeader title={"Make a new Booking"}/>
+            <Divider/>
+            <CardContent>
+                <Form>
+                    <Grid container spacing={1} justifyContent="flex-start"
+                          alignItems={"center"}>
+                        <Grid item xs={1}>
+                            <Controls.Input
+                                name="amount"
+                                label="Amount"
+                                value={values.amount}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Controls.Select
+                                name="offsettingAccount"
+                                label="Offsetting Account"
+                                value={values.offsettingAccount}
+                                onChange={handleInputChange}
+                                options={accounts}
+                                optiontext={"name"}
+                            />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Controls.DatePicker
+                                name="date"
+                                label="Date"
+                                value={values.date}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Controls.Select
+                                name="account"
+                                label="Account"
+                                value={values.account}
+                                onChange={handleInputChange}
+                                options={accounts}
+                                optiontext={"name"}
+                            />
+                        </Grid>
+                        <Grid item xs={5}>
+                            <Controls.Input
+                                fullWidth
+                                name="text"
+                                label="Text"
+                                value={values.text}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                    </Grid>
 
 
-        </Form>
+                </Form>
+
+            </CardContent>
+            <Divider/>
+            <CardActions>
+                <Grid container justifyContent={"flex-end"}>
+                    <Grid item xs={1}>
+                        <Button variant={"contained"} color={"primary"} size={"large"} fullWidth
+                                onClick={handleSave}>
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
+            </CardActions>
+
+        </Card>
+
 
     );
 }

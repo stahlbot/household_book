@@ -8,10 +8,19 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'created_at', 'account_type', 'get_account_type_display')
 
 
-class BookingSerializer(serializers.ModelSerializer):
+class CreateBookingSerializer(serializers.ModelSerializer):
     offsetting_account = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all())
     account = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all())
     date = fields.DateField(input_formats=['%Y-%m-%d'])
+
+    class Meta:
+        model = Booking
+        fields = ('amount', 'offsetting_account', 'date', 'account', 'text')
+
+
+class GetBookingsSerializer(serializers.ModelSerializer):
+    offsetting_account = AccountSerializer(read_only=True)
+    account = AccountSerializer(read_only=True)
 
     class Meta:
         model = Booking

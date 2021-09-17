@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Account, Booking
-from .serializers import AccountSerializer, BookingSerializer
+from .serializers import *
 
 
 class AccountView(generics.ListAPIView):
@@ -19,7 +19,7 @@ class AccountView(generics.ListAPIView):
 
 class BookingView(generics.ListAPIView):
     queryset = Booking.objects.all()
-    serializer_class = BookingSerializer
+    serializer_class = CreateBookingSerializer
 
 
 class GetAccounts(APIView):
@@ -72,10 +72,18 @@ class AccountDetail(APIView):
 
 class CreateBooking(APIView):
     def post(self, request, format=None):
-        serializer = BookingSerializer(data=request.data)
+        serializer = CreateBookingSerializer(data=request.data)
         print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BookingList(APIView):
+    def get(self, request, format=None):
+        bookings = Booking.objects.all()
+        serializer = GetBookingsSerializer(bookings, many=True)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)

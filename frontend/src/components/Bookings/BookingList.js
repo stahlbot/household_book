@@ -4,40 +4,9 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
-export default function BookingList() {
-
-    const [bookings, setBookings] = useState([{
-        "amount":0,
-        "offsetting_account":{
-            "id":0,
-            "name":"",
-            "created_at":"",
-            "account_type":"",
-            "get_account_type_display":""},
-        "date":"",
-        "account":{
-            "id":0,
-            "name":"Bank",
-            "created_at":"",
-            "account_type":"",
-            "get_account_type_display":""},
-        "text":""}]);
-
-    useEffect(() => {
-        const requestOptions = {
-                method: "GET",
-            };
-        fetch("api/bookings", requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                console.log(JSON.stringify(data))
-                setBookings(data);
-            });
-    }, []);
+export default function BookingList(props) {
 
     const showBooking = (booking) => {
-        console.log(booking.account.name)
         return (
             <TableRow>
                 <TableCell>{booking.amount}</TableCell>
@@ -57,7 +26,7 @@ export default function BookingList() {
                 <CardContent>
                     <Table>
                         <TableBody>
-                            {bookings.map(showBooking)}
+                            {props.bookings.map(showBooking)}
                         </TableBody>
                     </Table>
                 </CardContent>

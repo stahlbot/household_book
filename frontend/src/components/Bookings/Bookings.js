@@ -8,21 +8,9 @@ export default function Bookings() {
     const [bookings, setBookings] = useState({
         arrayvar: [{
             "amount": 0,
-            "offsetting_account": {
-                "id": 0,
-                "name": "",
-                "created_at": "",
-                "account_type": "",
-                "get_account_type_display": ""
-            },
+            "offsetting_account": "",
             "date": "",
-            "account": {
-                "id": 0,
-                "name": "Bank",
-                "created_at": "",
-                "account_type": "",
-                "get_account_type_display": ""
-            },
+            "account": "",
             "text": "",
             "created_at": ""
         }]
@@ -33,27 +21,24 @@ export default function Bookings() {
     })
     const [bookingInDialog, setBookingInDialog] = useState({
         amount: 0,
-        offsetting_account: {
-            id: 0,
-            name: "",
-            created_at: "",
-            account_type: "",
-            get_account_type_display: ""
-        },
+        offsetting_account: "",
         date: "",
-        account: {
-            id: 0,
-            name: "Bank",
-            created_at: "",
-            account_type: "",
-            get_account_type_display: ""
-        },
+        account: "",
         text: "",
         created_at: ""
     })
 
     const [accounts, setAccounts] = useState([])
     const [isLoading, setLoading] = useState(true);
+
+    const getAccountName = ((id) => {
+        let results = accounts.filter((acc) => acc.id === id)
+        let first = results[0]
+        if (first !== undefined){
+            return first.name
+        }
+        return "Not Found"
+    })
 
 
 
@@ -103,14 +88,14 @@ export default function Bookings() {
 
     return (
         <React.Fragment>
-            <BookingDialog dialogState={dialogState} handleDialogClose={handleDialogClose} accounts={accounts}
-                           booking={bookingInDialog} setBooking={setBookingInDialog}/>
+            <BookingDialog dialogState={dialogState}  setDialogState={setDialogState} handleDialogClose={handleDialogClose} accounts={accounts}
+                           booking={bookingInDialog} setBooking={setBookingInDialog} getAccountName={getAccountName}/>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <BookingForm bookings={bookings} onSave={onSave} accounts={accounts}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <BookingList bookings={bookings.arrayvar} handleTableRowClick={handleTableRowClick}/>
+                    <BookingList bookings={bookings.arrayvar} handleTableRowClick={handleTableRowClick} getAccountName={getAccountName}/>
                 </Grid>
             </Grid>
         </React.Fragment>

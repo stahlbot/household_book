@@ -9,9 +9,9 @@ export default function BookingList(props) {
         return (
             <TableRow onClick={() => props.handleTableRowClick(booking)} hover>
                 <TableCell>{booking.amount}</TableCell>
-                <TableCell>{booking.offsetting_account.name}</TableCell>
+                <TableCell>{props.getAccountName(booking.offsetting_account)}</TableCell>
                 <TableCell>{booking.date}</TableCell>
-                <TableCell>{booking.account.name}</TableCell>
+                <TableCell>{props.getAccountName(booking.account)}</TableCell>
                 <TableCell>{booking.text}</TableCell>
             </TableRow>
         );

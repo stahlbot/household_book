@@ -60,6 +60,7 @@ export default function BookingForm(props) {
             .then((response) => response.json())
             .then((data) => {
                 // props.onSaveNew(data)
+                console.log(data)
                 props.onSave(data)
             });
     }

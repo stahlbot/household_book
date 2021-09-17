@@ -80,8 +80,8 @@ class CreateBooking(APIView):
             response = serializer.data
             off_acc = Account.objects.filter(pk=response['offsetting_account']).first()
             acc = Account.objects.filter(pk=response['account']).first()
-            response['offsetting_account'] = AccountSerializer(off_acc).data
-            response['account'] = AccountSerializer(acc).data
+            # response['offsetting_account'] = AccountSerializer(off_acc).data
+            # response['account'] = AccountSerializer(acc).data
 
             return Response(response, status=status.HTTP_201_CREATED)
 
@@ -91,7 +91,7 @@ class CreateBooking(APIView):
 class BookingList(APIView):
     def get(self, request, format=None):
         bookings = Booking.objects.all()
-        serializer = GetBookingsSerializer(bookings, many=True)
+        serializer = CreateBookingSerializer(bookings, many=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -110,7 +110,7 @@ class BookingDetail(APIView):
 
     def patch(self, request, pk, format=None):
         booking = self.get_object(pk)
-        serializer = AccountSerializer(booking, data=request.data)
+        serializer = CreateBookingSerializer(booking, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

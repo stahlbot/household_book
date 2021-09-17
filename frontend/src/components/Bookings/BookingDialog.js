@@ -3,30 +3,32 @@ import {Dialog, DialogContent, DialogTitle} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Controls from "../controls/Controls";
 import {Form, useForm} from "../useForm";
+import Button from "@material-ui/core/Button";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export default function BookingDialog(props) {
 
     const handleSave = () => {
         const requestOptions = {
-                method: "PATCH",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    amount: props.booking.amount,
-                    offsetting_account: props.booking.offsetting_account.id,
-                    date: props.booking.date,
-                    account: props.booking.account.id,
-                    text: props.booking.text,
-                }),
-            };
-            fetch("/api/booking/" + props.booking.id, requestOptions)
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data)
-                    props.setDialog({
-                        open: false
-                    })
-                    props.updateList()
-                });
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                amount: props.booking.amount,
+                offsetting_account: props.booking.offsetting_account,
+                date: props.booking.date,
+                account: props.booking.account,
+                text: props.booking.text,
+            }),
+        };
+        console.log(props.booking)
+        fetch("/api/booking/" + props.booking.id, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                props.setDialogState({
+                    open: false
+                })
+            });
     }
 
     const handleInputChange = (event) => {
@@ -34,22 +36,13 @@ export default function BookingDialog(props) {
             ...props.booking,
             [event.target.name]: event.target.value,
         });
-        console.log(props.booking)
     }
 
-    const getAccountName = ((id) => {
-        let results = props.accounts.filter((acc) => acc.id === id)
-        let first = results[0]
-        if (first !== undefined){
-            console.log(first.name)
-            return first.name
-        }
-        return "Not Found"
-    })
+
 
     return (
         <Dialog open={props.dialogState.open} onClose={props.handleDialogClose} maxWidth={"sm"}>
-            <DialogTitle>Edit/Delete Booking for {getAccountName(props.booking.account.id)}</DialogTitle>
+            <DialogTitle>Edit/Delete Booking}</DialogTitle>
             <DialogContent>
                 <Form>
                     <Grid container spacing={1} justifyContent="flex-start"
@@ -85,7 +78,7 @@ export default function BookingDialog(props) {
                                 <Controls.Select
                                     name="account"
                                     label="Account"
-                                    value={props.booking.account.id}
+                                    value={props.booking.account}
                                     onChange={handleInputChange}
                                     options={props.accounts}
                                     optiontext={"name"}
@@ -103,6 +96,14 @@ export default function BookingDialog(props) {
                         </Grid>
                     </Form>
             </DialogContent>
+            <DialogActions>
+                    <Button onClick={props.handleDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSave} color="primary">
+                        Save
+                    </Button>
+            </DialogActions>
         </Dialog>
     );
 }

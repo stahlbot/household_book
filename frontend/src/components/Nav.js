@@ -164,7 +164,7 @@ export default function Nav(props) {
           </ListItem>
           <ListItem button key={'Bookings'} component={Link} to={'/bookings'}>
             <ListItemIcon><MenuBookIcon/></ListItemIcon>
-            <ListItemText>Calender</ListItemText>
+            <ListItemText>Bookings</ListItemText>
           </ListItem>
           <ListItem button key={'Settings'} component={Link} to={'/settings'}>
             <ListItemIcon><SettingsIcon/></ListItemIcon>

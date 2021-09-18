@@ -1,13 +1,54 @@
-import React from "react";
-import {Card, CardContent, CardHeader, Divider, Table, TableBody, TableCell, TableRow} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Table,
+    TableBody,
+    TableCell,
+    TableRow
+} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import PropTypes from 'prop-types';
+import BookingDialog from "./BookingDialog";
 
-export default function BookingList(props) {
+
+function BookingList(props) {
+    const [dialogState, setDialogState] = useState({
+        open: false,
+    })
+    const [bookingInDialog, setBookingInDialog] = useState({})
+
+    const handleDialogClose = () => {
+        setDialogState({
+            open: false,
+        })
+        setBookingInDialog({});
+    }
+
+    const handleTableRowClick = (booking) => {
+        setDialogState({
+            open: true,
+        })
+        setBookingInDialog(booking)
+    }
+
+    const handleDialogSave = () => {
+        props.setBookings(props.bookings.map((booking) => {
+            if (booking.id === bookingInDialog.id) {
+                return bookingInDialog
+            }
+            return booking
+        }))
+        handleDialogClose()
+    }
+
 
     const showBooking = (booking) => {
         return (
-            <TableRow onClick={() => props.handleTableRowClick(booking)} hover>
+            <TableRow onClick={() => handleTableRowClick(booking)} hover>
                 <TableCell>{booking.amount}</TableCell>
                 <TableCell>{props.getAccountName(booking.offsetting_account)}</TableCell>
                 <TableCell>{booking.date}</TableCell>
@@ -30,6 +71,10 @@ export default function BookingList(props) {
 
     return (
         <React.Fragment>
+            {dialogState.open && <BookingDialog dialogState={dialogState} setDialogState={setDialogState}
+                            handleDialogClose={handleDialogClose} accounts={props.accounts}
+                            booking={bookingInDialog} setBooking={setBookingInDialog}
+                            getAccountName={props.getAccountName} handleDialogSave={handleDialogSave}/>}
             <Card>
                 <CardHeader title={"Bookings"}/>
                 <Divider/>
@@ -44,3 +89,16 @@ export default function BookingList(props) {
         </React.Fragment>
     );
 }
+
+BookingList.propTypes = {
+    bookings: PropTypes.arrayOf(PropTypes.exact({
+        amount: PropTypes.number,
+        offsetting_account: PropTypes.string,
+        date: PropTypes.string,
+        account: PropTypes.string,
+        text: PropTypes.string,
+        created_at: PropTypes.string
+    }))
+}
+
+export default BookingList

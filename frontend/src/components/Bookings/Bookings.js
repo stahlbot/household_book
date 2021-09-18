@@ -5,28 +5,7 @@ import {Grid} from "@material-ui/core";
 import BookingDialog from "./BookingDialog";
 
 export default function Bookings() {
-    const [bookings, setBookings] = useState({
-        arrayvar: [{
-            "amount": 0,
-            "offsetting_account": "",
-            "date": "",
-            "account": "",
-            "text": "",
-            "created_at": ""
-        }]
-    });
-
-    const [dialogState, setDialogState] = useState({
-        open: false,
-    })
-    const [bookingInDialog, setBookingInDialog] = useState({
-        amount: 0,
-        offsetting_account: "",
-        date: "",
-        account: "",
-        text: "",
-        created_at: ""
-    })
+    const [bookings, setBookings] = useState([]);
 
     const [accounts, setAccounts] = useState([])
     const [isLoading, setLoading] = useState(true);
@@ -58,44 +37,29 @@ export default function Bookings() {
         fetch("api/bookings", requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                setBookings({arrayvar: data});
+                setBookings(data);
             });
     }, []);
 
     const onSave = (booking) => {
-        setBookings({
-            arrayvar: [booking, ...bookings.arrayvar]
-        })
+        setBookings(
+            [booking, ...bookings]
+        )
     }
 
-    const handleTableRowClick = (booking) => {
-        setDialogState({
-            open: true,
-        })
-        setBookingInDialog(booking)
-    }
 
-    const handleDialogClose = () => {
-        setDialogState({
-            open: false,
-            booking: {},
-        })
-    }
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+
+
 
     return (
         <React.Fragment>
-            <BookingDialog dialogState={dialogState}  setDialogState={setDialogState} handleDialogClose={handleDialogClose} accounts={accounts}
-                           booking={bookingInDialog} setBooking={setBookingInDialog} getAccountName={getAccountName}/>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <BookingForm bookings={bookings} onSave={onSave} accounts={accounts}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <BookingList bookings={bookings.arrayvar} handleTableRowClick={handleTableRowClick} getAccountName={getAccountName}/>
+                    <BookingList bookings={bookings} setBookings={setBookings} getAccountName={getAccountName} accounts={accounts}/>
                 </Grid>
             </Grid>
         </React.Fragment>

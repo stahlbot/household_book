@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 export default function BookingDialog(props) {
 
+
     const handleSave = () => {
         const requestOptions = {
             method: "PATCH",
@@ -20,14 +21,12 @@ export default function BookingDialog(props) {
                 text: props.booking.text,
             }),
         };
-        console.log(props.booking)
         fetch("/api/booking/" + props.booking.id, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
-                props.setDialogState({
-                    open: false
-                })
+                console.log("handlesave")
+                props.handleDialogSave(props.booking)
             });
     }
 

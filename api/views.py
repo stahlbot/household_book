@@ -55,6 +55,13 @@ class AccountDetail(APIView):
         except Account.DoesNotExist:
             raise Http404
 
+    def get(self, request, pk, format=None):
+        account = self.get_object(pk)
+        print(account)
+        data = AccountSerializer(account).data
+        return Response(data, status=status.HTTP_200_OK)
+
+
     def delete(self, request, pk, format=None):
         account = self.get_object(pk)
         account.delete()

@@ -13,7 +13,7 @@ export default function Bookings() {
     const getAccountName = ((id) => {
         let results = accounts.filter((acc) => acc.id === id)
         let first = results[0]
-        if (first !== undefined){
+        if (first){
             return first.name
         }
         return "Not Found"

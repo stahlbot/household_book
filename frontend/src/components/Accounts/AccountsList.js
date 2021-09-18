@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import NewAccountDialog from "./NewAccountDialog";
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles({
     table: {
@@ -77,19 +78,19 @@ export default function AccountsList(props) {
         }
 
         return (
-            <TableRow>
+            <TableRow component={Link} to={'/account/'+account.id} hover key={account.id}>
                 <TableCell>{account.id}</TableCell>
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
                 <TableCell>{account.created_at}</TableCell>
-                <TableCell>
-                    <IconButton>
-                        <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>
-                    </IconButton>
-                    <IconButton>
-                        <EditOutlinedIcon color={"secondary"} onClick={() => handleClickEdit(account)}/>
-                    </IconButton>
-                </TableCell>
+                {/*<TableCell>*/}
+                {/*    <IconButton>*/}
+                {/*        <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>*/}
+                {/*    </IconButton>*/}
+                {/*    <IconButton>*/}
+                {/*        <EditOutlinedIcon color={"secondary"} onClick={() => handleClickEdit(account)}/>*/}
+                {/*    </IconButton>*/}
+                {/*</TableCell>*/}
             </TableRow>
         )
 

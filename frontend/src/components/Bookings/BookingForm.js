@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import {format} from "date-fns";
 
 const initialFValues = {
-    amount: undefined,
+    amount: "",
     offsettingAccount: "",
     date: new Date(),
     account: "",
@@ -62,6 +62,7 @@ export default function BookingForm(props) {
                 // props.onSaveNew(data)
                 console.log(data)
                 props.onSave(data)
+                resetForm()
             });
     }
 

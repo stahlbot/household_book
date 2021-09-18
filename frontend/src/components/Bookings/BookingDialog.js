@@ -9,49 +9,59 @@ import {format, parse} from "date-fns";
 
 export default function BookingDialog(props) {
 
-    // useEffect(() => {
-    //     console.log(parse(props.booking.date, 'yyyy-MM-dd', new Date()))
-    //     props.setBooking({
-    //         ...props.booking,
-    //         date: parse(props.booking.date, 'yyyy-MM-dd', new Date())
-    //     })
-    // }, [])
-
-
     const handleSave = () => {
         const requestOptions = {
             method: "PATCH",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                amount: props.booking.amount,
-                offsetting_account: props.booking.offsetting_account,
-                date: props.booking.date,
-                account: props.booking.account,
-                text: props.booking.text,
+                amount: props.bookingInDialog.amount,
+                offsetting_account: props.bookingInDialog.offsetting_account,
+                date: props.bookingInDialog.date,
+                account: props.bookingInDialog.account,
+                text: props.bookingInDialog.text,
             }),
         };
-        console.log(props.booking)
+        console.log(props.bookingInDialog)
 
-        fetch("/api/booking/" + props.booking.id, requestOptions)
+        fetch("/api/booking/" + props.bookingInDialog.id, requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log("handlesave")
                 props.handleDialogSave()
             });
     }
 
     const handleInputChange = (event) => {
         let value = event.target.value
-        props.setBooking({
-            ...props.booking,
+        props.setBookingInDialog({
+            ...props.bookingInDialog,
             [event.target.name]: value instanceof Date ? format(value, 'yyyy-MM-dd') : value,
         });
     }
 
+    // for deleting an entry
+    function handleDelete() {
+        console.log("delete it")
+        const requestOptions = {
+            method: "DELETE",
+        };
+        return fetch("/api/booking/" + props.bookingInDialog.id, requestOptions)
+            .then((response) => {
+                // when deletion worked, remove the account from the state
+                if (response.ok) {
+                    const array = [...props.bookings];
+                    const index = array.indexOf(props.bookingInDialog);
+                    if (index !== 1) {
+                        array.splice(index, 1)
+                        props.setBookings(array)
+                    }
+                    props.handleDialogClose()
+                }
+            })
+    }
+
     return (
         <Dialog open={props.dialogState.open} onClose={props.handleDialogClose} maxWidth={"sm"}>
-            <DialogTitle>Edit/Delete Booking}</DialogTitle>
+            <DialogTitle>Edit/Delete Booking</DialogTitle>
             <DialogContent>
                 <Form>
                     <Grid container spacing={1} justifyContent="flex-start"
@@ -61,7 +71,7 @@ export default function BookingDialog(props) {
                                     fullWidth
                                     name="amount"
                                     label="Amount"
-                                    value={props.booking.amount}
+                                    value={props.bookingInDialog.amount}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -69,7 +79,7 @@ export default function BookingDialog(props) {
                                 <Controls.Select
                                     name="offsetting_account"
                                     label="Offsetting Account"
-                                    value={props.booking.offsetting_account}
+                                    value={props.bookingInDialog.offsetting_account}
                                     onChange={handleInputChange}
                                     options={props.accounts}
                                     optiontext={"name"}
@@ -79,7 +89,7 @@ export default function BookingDialog(props) {
                                 <Controls.DatePicker
                                     name="date"
                                     label="Date"
-                                    value={props.booking.date}
+                                    value={props.bookingInDialog.date}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -87,7 +97,7 @@ export default function BookingDialog(props) {
                                 <Controls.Select
                                     name="account"
                                     label="Account"
-                                    value={props.booking.account}
+                                    value={props.bookingInDialog.account}
                                     onChange={handleInputChange}
                                     options={props.accounts}
                                     optiontext={"name"}
@@ -98,7 +108,7 @@ export default function BookingDialog(props) {
                                     fullWidth
                                     name="text"
                                     label="Text"
-                                    value={props.booking.text}
+                                    value={props.bookingInDialog.text}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -111,6 +121,9 @@ export default function BookingDialog(props) {
                     </Button>
                     <Button onClick={handleSave} color="primary">
                         Save
+                    </Button>
+                    <Button onClick={handleDelete} color="primary">
+                        Delete
                     </Button>
             </DialogActions>
         </Dialog>

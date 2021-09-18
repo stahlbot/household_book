@@ -19,9 +19,7 @@ class CreateBookingSerializer(serializers.ModelSerializer):
 
 
 class GetBookingsSerializer(serializers.ModelSerializer):
-    offsetting_account = AccountSerializer(read_only=True)
-    account = AccountSerializer(read_only=True)
 
     class Meta:
         model = Booking
-        fields = ('amount', 'offsetting_account', 'date', 'account', 'text', 'created_at')
+        fields = ('id', 'amount', 'offsetting_account', 'date', 'account', 'text', 'created_at')

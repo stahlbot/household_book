@@ -91,7 +91,7 @@ class CreateBooking(APIView):
 class BookingList(APIView):
     def get(self, request, format=None):
         bookings = Booking.objects.all()
-        serializer = CreateBookingSerializer(bookings, many=True)
+        serializer = GetBookingsSerializer(bookings, many=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

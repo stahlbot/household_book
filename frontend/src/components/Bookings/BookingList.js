@@ -73,7 +73,7 @@ function BookingList(props) {
         <React.Fragment>
             {dialogState.open && <BookingDialog dialogState={dialogState} setDialogState={setDialogState}
                             handleDialogClose={handleDialogClose} accounts={props.accounts}
-                            booking={bookingInDialog} setBooking={setBookingInDialog}
+                            bookingInDialog={bookingInDialog} setBookingInDialog={setBookingInDialog} bookings={props.bookings} setBookings={props.setBookings}
                             getAccountName={props.getAccountName} handleDialogSave={handleDialogSave}/>}
             <Card>
                 <CardHeader title={"Bookings"}/>

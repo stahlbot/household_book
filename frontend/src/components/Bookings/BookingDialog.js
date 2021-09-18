@@ -5,8 +5,17 @@ import Controls from "../controls/Controls";
 import {Form, useForm} from "../useForm";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
+import {format, parse} from "date-fns";
 
 export default function BookingDialog(props) {
+
+    // useEffect(() => {
+    //     console.log(parse(props.booking.date, 'yyyy-MM-dd', new Date()))
+    //     props.setBooking({
+    //         ...props.booking,
+    //         date: parse(props.booking.date, 'yyyy-MM-dd', new Date())
+    //     })
+    // }, [])
 
 
     const handleSave = () => {
@@ -21,23 +30,24 @@ export default function BookingDialog(props) {
                 text: props.booking.text,
             }),
         };
+        console.log(props.booking)
+
         fetch("/api/booking/" + props.booking.id, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
                 console.log("handlesave")
-                props.handleDialogSave(props.booking)
+                props.handleDialogSave()
             });
     }
 
     const handleInputChange = (event) => {
+        let value = event.target.value
         props.setBooking({
             ...props.booking,
-            [event.target.name]: event.target.value,
+            [event.target.name]: value instanceof Date ? format(value, 'yyyy-MM-dd') : value,
         });
     }
-
-
 
     return (
         <Dialog open={props.dialogState.open} onClose={props.handleDialogClose} maxWidth={"sm"}>

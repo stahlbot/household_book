@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, Paper, Typography} from "@material-ui/core";
 import BookingForm from "../Bookings/BookingForm";
 import BookingList from "../Bookings/BookingList";
+import BalanceDisplay from "../BalanceDisplay";
+import IconButton from "@material-ui/core/IconButton";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 export default function Account(props) {
     const [account, setAccount] = useState({})
@@ -64,7 +67,11 @@ export default function Account(props) {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper>
-                        Saldo: {balance}
+                        <IconButton>
+                        <EditOutlinedIcon color={"secondary"} onClick={() => console.log("edit not implemented")}/>
+                   </IconButton>
+                        <h1>{account.name}</h1>
+                        Saldo: <BalanceDisplay account={account}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>

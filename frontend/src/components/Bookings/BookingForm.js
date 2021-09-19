@@ -131,7 +131,7 @@ export default function BookingForm(props) {
                 <Grid container justifyContent={"flex-end"}>
                     <Grid item xs={1}>
                         <Button variant={"contained"} color={"primary"} size={"large"} fullWidth
-                                onClick={handleSave}>
+                                onClick={handleSave} type={"submit"}>
                             Save
                         </Button>
                     </Grid>

@@ -63,7 +63,7 @@ class AccountDetail(APIView):
         bookings = account.get_bookings()
         bookings_serialized = GetBookingsSerializer(bookings, many=True).data
         data['bookings'] = bookings_serialized
-        data['balance'] = calc_account_balance(account)
+        data['balance'] = account.calc_account_balance()
         return Response(data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk, format=None):

@@ -17,6 +17,7 @@ import NewAccountDialog from "./NewAccountDialog";
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import {Link} from "react-router-dom";
+import BalanceDisplay from "../BalanceDisplay";
 
 const useStyles = makeStyles({
     table: {
@@ -83,7 +84,7 @@ export default function AccountsList(props) {
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
                 <TableCell>{account.created_at}</TableCell>
-                <TableCell>{account.balance}</TableCell>
+                <TableCell><BalanceDisplay account={account}/></TableCell>
                 {/*<TableCell>*/}
                 {/*    <IconButton>*/}
                 {/*        <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>*/}

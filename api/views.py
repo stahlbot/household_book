@@ -29,6 +29,8 @@ class GetAccounts(APIView):
         accounts = Account.objects.all()
         data = AccountSerializer(accounts, many=True).data
         print(data)
+        for i, account in enumerate(data):
+            account['balance'] = accounts[i].calc_account_balance()
         return Response(data, status=status.HTTP_200_OK)
 
 
@@ -58,9 +60,10 @@ class AccountDetail(APIView):
     def get(self, request, pk, format=None):
         account = self.get_object(pk)
         data = AccountSerializer(account).data
-        bookings = Booking.objects.filter(account=pk).union(Booking.objects.filter(offsetting_account=pk))
+        bookings = account.get_bookings()
         bookings_serialized = GetBookingsSerializer(bookings, many=True).data
         data['bookings'] = bookings_serialized
+        data['balance'] = calc_account_balance(account)
         return Response(data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk, format=None):

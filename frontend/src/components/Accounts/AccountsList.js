@@ -83,6 +83,7 @@ export default function AccountsList(props) {
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
                 <TableCell>{account.created_at}</TableCell>
+                <TableCell>{account.balance}</TableCell>
                 {/*<TableCell>*/}
                 {/*    <IconButton>*/}
                 {/*        <DeleteOutlineOutlinedIcon style={{color: "red"}} onClick={handleDelete}/>*/}
@@ -167,6 +168,7 @@ export default function AccountsList(props) {
                             <TableCell>Name</TableCell>
                             <TableCell>Type</TableCell>
                             <TableCell>Created At</TableCell>
+                            <TableCell>Balance</TableCell>
                             <TableCell/>
                         </TableRow>
                     </TableHead>

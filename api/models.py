@@ -15,11 +15,14 @@ class Booking(models.Model):
     text = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'offacc {self.offsetting_account} acc {self.account} text {self.text}'
+
 
 class Account(models.Model):
     name = models.CharField(max_length=50, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    bookings = models.ManyToManyField("self", through=Booking, symmetrical=False)
+    bookings = models.ManyToManyField("self", through=Booking, symmetrical=True)
 
     ASSET = "AS"
     LIABILITY = "LI"

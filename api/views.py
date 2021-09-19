@@ -57,10 +57,11 @@ class AccountDetail(APIView):
 
     def get(self, request, pk, format=None):
         account = self.get_object(pk)
-        print(account)
         data = AccountSerializer(account).data
+        bookings = Booking.objects.filter(account=pk).union(Booking.objects.filter(offsetting_account=pk))
+        bookings_serialized = GetBookingsSerializer(bookings, many=True).data
+        data['bookings'] = bookings_serialized
         return Response(data, status=status.HTTP_200_OK)
-
 
     def delete(self, request, pk, format=None):
         account = self.get_object(pk)

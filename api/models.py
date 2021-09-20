@@ -28,12 +28,12 @@ class Account(models.Model):
 
     ASSET = "AS"
     LIABILITY = "LI"
-    EARNING = "EA"
+    REVENUE = "RE"
     EXPENSE = "EX"
     TYPE_CHOICES = [
         (ASSET, "Asset"),
         (LIABILITY, "Liability"),
-        (EARNING, "Earning"),
+        (REVENUE, "Revenue"),
         (EXPENSE, "Expense")
     ]
     account_type = models.CharField(

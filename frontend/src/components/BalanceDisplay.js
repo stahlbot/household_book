@@ -5,7 +5,7 @@ export default function BalanceDisplay({account}){
 
     const getColor = () => {
 
-        if (account.account_type === 'EX' || account.account_type === 'EA'){
+        if (account.account_type === 'EX' || account.account_type === 'RE'){
             if (account.balance >= 0){
                 return 'red'
             } else {
@@ -23,7 +23,7 @@ export default function BalanceDisplay({account}){
 
     return (
         <Typography variant={"body1"} style={{color: getColor(), display: "inline"}}>
-            {Math.abs(account.balance)}
+            {Math.abs(account.balance).toFixed(2)}€
         </Typography>
     );
 }

@@ -98,7 +98,7 @@ export default function NewAccountDialog(props) {
                         >
                             <MenuItem value={"AS"}>Asset</MenuItem>
                             <MenuItem value={"LI"}>Liability</MenuItem>
-                            <MenuItem value={"EA"}>Earning</MenuItem>
+                            <MenuItem value={"RE"}>Revenue</MenuItem>
                             <MenuItem value={"EX"}>Expense</MenuItem>
                         </Select>
                     </FormControl>

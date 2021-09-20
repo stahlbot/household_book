@@ -49,10 +49,8 @@ function BookingList(props) {
     const showBooking = (booking) => {
         return (
             <TableRow onClick={() => handleTableRowClick(booking)} hover>
-                <TableCell>{booking.amount}</TableCell>
-                <TableCell>{props.getAccountName(booking.offsetting_account)}</TableCell>
                 <TableCell>{booking.date}</TableCell>
-                <TableCell>{props.getAccountName(booking.account)}</TableCell>
+                <TableCell>{booking.amount.toFixed(2)}€<br/> {props.getAccountName(booking.offsetting_account)} → {props.getAccountName(booking.account)}</TableCell>
                 <TableCell>{booking.text}</TableCell>
             </TableRow>
         );

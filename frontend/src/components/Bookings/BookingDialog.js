@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Dialog, DialogContent, DialogTitle} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Controls from "../controls/Controls";
-import {Form, useForm} from "../useForm";
+import {Form} from "../useForm";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
-import {format, parse} from "date-fns";
+import {format} from "date-fns";
 
 export default function BookingDialog(props) {
 
@@ -65,66 +65,70 @@ export default function BookingDialog(props) {
             <DialogContent>
                 <Form>
                     <Grid container spacing={1} justifyContent="flex-start"
-                              alignItems={"center"}>
-                            <Grid item xs={6}>
-                                <Controls.Input
-                                    fullWidth
-                                    name="amount"
-                                    label="Amount"
-                                    value={props.bookingInDialog.amount}
-                                    onChange={handleInputChange}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Controls.Select
-                                    name="offsetting_account"
-                                    label="Offsetting Account"
-                                    value={props.bookingInDialog.offsetting_account}
-                                    onChange={handleInputChange}
-                                    options={props.accounts}
-                                    optiontext={"name"}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Controls.DatePicker
-                                    name="date"
-                                    label="Date"
-                                    value={props.bookingInDialog.date}
-                                    onChange={handleInputChange}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Controls.Select
-                                    name="account"
-                                    label="Account"
-                                    value={props.bookingInDialog.account}
-                                    onChange={handleInputChange}
-                                    options={props.accounts}
-                                    optiontext={"name"}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Controls.Input
-                                    fullWidth
-                                    name="text"
-                                    label="Text"
-                                    value={props.bookingInDialog.text}
-                                    onChange={handleInputChange}
-                                />
-                            </Grid>
+                          alignItems={"center"}>
+                        <Grid item xs={6}>
+                            <Controls.Input
+                                fullWidth
+                                name="amount"
+                                label="Amount"
+                                value={props.bookingInDialog.amount}
+                                onChange={handleInputChange}
+                            />
                         </Grid>
-                    </Form>
+                        <Grid item xs={6}>
+                            <Controls.Select
+                                name="offsetting_account"
+                                label="Offsetting Account"
+                                value={props.bookingInDialog.offsetting_account}
+                                onChange={handleInputChange}
+                                options={props.accounts}
+                                optiontext={"name"}
+                                optiongroup={"get_account_type_display"}
+
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Controls.DatePicker
+                                name="date"
+                                label="Date"
+                                value={props.bookingInDialog.date}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Controls.Select
+                                name="account"
+                                label="Account"
+                                value={props.bookingInDialog.account}
+                                onChange={handleInputChange}
+                                options={props.accounts}
+                                optiontext={"name"}
+                                optiongroup={"get_account_type_display"}
+
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Controls.Input
+                                fullWidth
+                                name="text"
+                                label="Text"
+                                value={props.bookingInDialog.text}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                    </Grid>
+                </Form>
             </DialogContent>
             <DialogActions>
-                    <Button onClick={props.handleDialogClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleSave} color="primary">
-                        Save
-                    </Button>
-                    <Button onClick={handleDelete} color="primary">
-                        Delete
-                    </Button>
+                <Button onClick={props.handleDialogClose} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={handleSave} color="primary">
+                    Save
+                </Button>
+                <Button onClick={handleDelete} color="primary">
+                    Delete
+                </Button>
             </DialogActions>
         </Dialog>
     );

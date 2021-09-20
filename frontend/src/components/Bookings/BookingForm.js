@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Button, Card, CardActions, CardContent, CardHeader, Divider, makeStyles} from "@material-ui/core";
 import {Form, useForm} from "../useForm";
 import Controls from "../controls/Controls";
@@ -30,7 +30,6 @@ export default function BookingForm(props) {
     const classes = useStyles();
 
 
-
     const {
         values,
         setValues,
@@ -39,9 +38,6 @@ export default function BookingForm(props) {
         handleInputChange,
         resetForm
     } = useForm(initialFValues);
-
-
-
 
 
     const handleSave = () => {
@@ -60,7 +56,6 @@ export default function BookingForm(props) {
             .then((response) => response.json())
             .then((data) => {
                 // props.onSaveNew(data)
-                console.log(data)
                 props.onSave(data)
                 resetForm()
             });
@@ -86,11 +81,12 @@ export default function BookingForm(props) {
                         <Grid item xs={2}>
                             <Controls.Select
                                 name="offsettingAccount"
-                                label="Offsetting Account"
+                                label="Credit"
                                 value={values.offsettingAccount}
                                 onChange={handleInputChange}
                                 options={props.accounts}
                                 optiontext={"name"}
+                                optiongroup={"get_account_type_display"}
                             />
                         </Grid>
                         <Grid item xs={2}>
@@ -104,11 +100,13 @@ export default function BookingForm(props) {
                         <Grid item xs={2}>
                             <Controls.Select
                                 name="account"
-                                label="Account"
+                                label="Debit"
                                 value={values.account}
                                 onChange={handleInputChange}
                                 options={props.accounts}
                                 optiontext={"name"}
+                                optiongroup={"get_account_type_display"}
+
                             />
                         </Grid>
                         <Grid item xs={5}>

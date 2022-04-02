@@ -183,7 +183,7 @@ export default function AccountsList(props) {
                     headBodyMap={
                         {
                             ID: (item) => item.id,
-                            Name: (item) => item.name,
+                            Name: (item) => <Link to={'/account/'+item.id}>{item.name}</Link>,
                             Type: (item) => item.get_account_type_display,
                             "Created At": (item) => item.created_at,
                             "Balance": (item) => <BalanceDisplay account={item}/>,

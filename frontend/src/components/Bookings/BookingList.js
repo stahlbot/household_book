@@ -13,6 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import PropTypes from 'prop-types';
 import BookingDialog from "./BookingDialog";
+import AbstractTable from "../useTable";
 
 
 function BookingList(props) {
@@ -82,6 +83,21 @@ function BookingList(props) {
                             {props.bookings.sort(compare).map(showBooking)}
                         </TableBody>
                     </Table>
+                    <AbstractTable
+                        items={props.bookings}
+                        headBodyMap={
+                            {
+                                ID: (item) => item.id,
+                                Name: (item) => item.text,
+                                Vorgang: (item) =>
+                                    <div>
+                                        {item.amount.toFixed(2)}€ <br/>
+                                        {props.getAccountName(item.offsetting_account)} → {props.getAccountName(item.account)}
+                                    </div>,
+                                Date: (item) => item.date,
+                            }
+                        }
+                    />
                 </CardContent>
             </Card>
         </React.Fragment>

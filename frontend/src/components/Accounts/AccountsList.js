@@ -18,6 +18,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import {Link} from "react-router-dom";
 import BalanceDisplay from "../BalanceDisplay";
+import AbstractTable from "../useTable";
 
 const useStyles = makeStyles({
     table: {
@@ -177,6 +178,18 @@ export default function AccountsList(props) {
                         {state.accounts.map(showAccount)}
                     </TableBody>
                 </Table>
+                <AbstractTable
+                    items={state.accounts}
+                    headBodyMap={
+                        {
+                            ID: (item) => item.id,
+                            Name: (item) => item.name,
+                            Type: (item) => item.get_account_type_display,
+                            "Created At": (item) => item.created_at,
+                            "Balance": (item) => <BalanceDisplay account={item}/>,
+                        }
+                    }
+                />
             </TableContainer>
         </Paper>
     );

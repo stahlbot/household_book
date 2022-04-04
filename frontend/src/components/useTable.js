@@ -7,7 +7,7 @@ export default function AbstractTable(props) {
         items,
         setItems,
         headBodyMap,
-        restEnpointName,
+        restEndpointName,
         ...other
     } = props;
 
@@ -70,9 +70,32 @@ export default function AbstractTable(props) {
         setContextMenu(null);
     };
 
+    const returnItemFromID = (id) => {
+        for (let item of items) {
+            if (item['id'] === id)
+                return item;
+        }
+        return null;
+    };
+
     const handleDelete = (rowId) => {
         console.log("delete" + rowId);
         handleClose();
+        const requestOptions = {
+            method: "DELETE",
+        };
+        return fetch("/api/" + restEndpointName + "/" + rowId, requestOptions)
+            .then((response) => {
+                // when deletion worked, remove the account from the state
+                if (response.ok) {
+                    const array = [...items];
+                    const index = array.indexOf(returnItemFromID(rowId));
+                    if (index !== 1) {
+                        array.splice(index, 1)
+                        setItems(array)
+                    }
+                }
+            })
     };
 
     // Creating the Header and Content of the Table

@@ -167,6 +167,7 @@ export default function Accounts(props) {
                 </Toolbar>
                 <AbstractTable
                     items={accounts}
+                    setItems={setAccounts}
                     restEndpointName={"accounts"}
                     headBodyMap={
                         {

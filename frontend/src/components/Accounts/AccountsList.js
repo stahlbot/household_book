@@ -34,7 +34,7 @@ export default function AccountsList(props) {
 
     // get all accounts when the page is rendered
     useEffect(() => {
-        fetch("api/get-accounts")
+        fetch("api/accounts")
             .then((response) => response.json())
             .then((data) => {
                 setState({accounts: data})
@@ -50,7 +50,7 @@ export default function AccountsList(props) {
             const requestOptions = {
                 method: "DELETE",
             };
-            return fetch("/api/account/" + account.id, requestOptions)
+            return fetch("/api/accounts/" + account.id, requestOptions)
                 .then((response) => {
                     // when deletion worked, remove the account from the state
                     if (response.ok) {
@@ -70,7 +70,7 @@ export default function AccountsList(props) {
             const requestOptions = {
                 method: "PUT",
             };
-            return fetch("/api/account/" + account.id, requestOptions)
+            return fetch("/api/accounts/" + account.id, requestOptions)
                 .then((response) => {
                     // when deletion worked, remove the account from the state
                     if (response.ok) {
@@ -80,7 +80,7 @@ export default function AccountsList(props) {
         }
 
         return (
-            <TableRow component={Link} to={'/account/'+account.id} hover key={account.id}>
+            <TableRow component={Link} to={'/accounts/'+account.id} hover key={account.id}>
                 <TableCell>{account.id}</TableCell>
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
@@ -143,7 +143,7 @@ export default function AccountsList(props) {
 
     // TODO: hacky Solution for updating the table when editing an entry, without fetch would be nice
     const updateList = () => {
-        fetch("api/get-accounts")
+        fetch("api/accounts")
             .then((response) => response.json())
             .then((data) => {
                 setState({accounts: data})

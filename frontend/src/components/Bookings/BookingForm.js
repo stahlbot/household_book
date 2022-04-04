@@ -52,7 +52,7 @@ export default function BookingForm(props) {
                 text: values.text,
             }),
         };
-        fetch("/api/create-booking", requestOptions)
+        fetch("/api/bookings", requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 // props.onSaveNew(data)

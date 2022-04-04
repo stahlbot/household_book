@@ -32,7 +32,7 @@ export default function NewAccountDialog(props) {
                     account_type: props.account.account_type
                 }),
             };
-            fetch("/api/account/" + props.account.id, requestOptions)
+            fetch("/api/accounts/" + props.account.id, requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data)
@@ -51,7 +51,7 @@ export default function NewAccountDialog(props) {
                     account_type: props.account.account_type
                 }),
             };
-            fetch("/api/create-account", requestOptions)
+            fetch("/api/accounts", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                     props.onSaveNew(data)

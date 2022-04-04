@@ -23,7 +23,7 @@ export default function BalanceDisplay({account}){
 
     return (
         <Typography variant={"body1"} style={{color: getColor(), display: "inline"}}>
-            {Math.abs(account.balance).toFixed(2)}€
+            {Math.abs(parseFloat(account.balance)).toFixed(2)}€
         </Typography>
     );
 }

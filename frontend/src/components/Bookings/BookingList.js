@@ -14,6 +14,7 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import PropTypes from 'prop-types';
 import BookingDialog from "./BookingDialog";
 import AbstractTable from "../useTable";
+import {Link} from "react-router-dom";
 
 
 function BookingList(props) {
@@ -51,7 +52,7 @@ function BookingList(props) {
         return (
             <TableRow onClick={() => handleTableRowClick(booking)} hover>
                 <TableCell>{booking.date}</TableCell>
-                <TableCell>{booking.amount.toFixed(2)}€<br/> {props.getAccountName(booking.offsetting_account)} → {props.getAccountName(booking.account)}</TableCell>
+                <TableCell>{parseFloat(booking.amount).toFixed(2)}€<br/> {props.getAccountName(booking.offsetting_account)} → {props.getAccountName(booking.account)}</TableCell>
                 <TableCell>{booking.text}</TableCell>
             </TableRow>
         );
@@ -91,8 +92,9 @@ function BookingList(props) {
                                 Name: (item) => item.text,
                                 Vorgang: (item) =>
                                     <div>
-                                        {item.amount.toFixed(2)}€ <br/>
-                                        {props.getAccountName(item.offsetting_account)} → {props.getAccountName(item.account)}
+                                        {parseFloat(item.amount).toFixed(2)}€ <br/>
+                                        <Link to={'/account/'+item.offsetting_account}>{props.getAccountName(item.offsetting_account)}</Link>
+                                        → <Link to={'/account/'+item.account}>{props.getAccountName(item.account)}</Link>
                                     </div>,
                                 Date: (item) => item.date,
                             }

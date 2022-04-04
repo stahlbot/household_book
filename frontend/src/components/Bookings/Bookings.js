@@ -22,7 +22,7 @@ export default function Bookings() {
 
 
     useEffect(() => {
-        fetch("api/get-accounts")
+        fetch("api/accounts")
             .then((response) => response.json())
             .then((data) => {
                 setAccounts(data);

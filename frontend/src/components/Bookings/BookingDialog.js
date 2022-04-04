@@ -23,7 +23,7 @@ export default function BookingDialog(props) {
         };
         console.log(props.bookingInDialog)
 
-        fetch("/api/booking/" + props.bookingInDialog.id, requestOptions)
+        fetch("/api/bookings/" + props.bookingInDialog.id, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 props.handleDialogSave()
@@ -44,7 +44,7 @@ export default function BookingDialog(props) {
         const requestOptions = {
             method: "DELETE",
         };
-        return fetch("/api/booking/" + props.bookingInDialog.id, requestOptions)
+        return fetch("/api/bookings/" + props.bookingInDialog.id, requestOptions)
             .then((response) => {
                 // when deletion worked, remove the account from the state
                 if (response.ok) {

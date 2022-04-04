@@ -32,7 +32,7 @@ export default function Account(props) {
     }
 
     useEffect(() => {
-        fetch("../api/get-accounts")
+        fetch("../api/accounts")
             .then((response) => response.json())
             .then((data) => {
 
@@ -45,7 +45,7 @@ export default function Account(props) {
         const requestOptions = {
             method: "GET",
         };
-        fetch("../api/account/" + id)
+        fetch("../api/accounts/" + id)
             .then((response) => response.json())
             .then((data) => {
                 setAccount(data);

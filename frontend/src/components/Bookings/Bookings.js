@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import BookingForm from "./BookingForm";
 import BookingList from "./BookingList";
-import {Grid} from "@material-ui/core";
+import {Card, CardContent, CardHeader, Divider, Grid, Table, TableBody} from "@material-ui/core";
 import BookingDialog from "./BookingDialog";
+import AbstractTable from "../useTable";
+import {Link} from "react-router-dom";
 
 export default function Bookings() {
     const [bookings, setBookings] = useState([]);
@@ -13,12 +15,11 @@ export default function Bookings() {
     const getAccountName = ((id) => {
         let results = accounts.filter((acc) => acc.id === id)
         let first = results[0]
-        if (first){
+        if (first) {
             return first.name
         }
         return "Not Found"
     })
-
 
 
     useEffect(() => {
@@ -48,10 +49,6 @@ export default function Bookings() {
     }
 
 
-
-
-
-
     return (
         <React.Fragment>
             <Grid container spacing={3}>
@@ -59,7 +56,31 @@ export default function Bookings() {
                     <BookingForm bookings={bookings} onSave={onSave} accounts={accounts}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <BookingList bookings={bookings} setBookings={setBookings} getAccountName={getAccountName} accounts={accounts}/>
+                    <Card>
+                        <CardHeader title={"Bookings"}/>
+                        <Divider/>
+                        <CardContent>
+                            <AbstractTable
+                                items={bookings}
+                                restEndpointName={"bookings"}
+                                headBodyMap={
+                                    {
+                                        ID: (item) => item.id,
+                                        Name: (item) => item.text,
+                                        Vorgang: (item) =>
+                                            <div>
+                                                {parseFloat(item.amount).toFixed(2)}€ <br/>
+                                                <Link
+                                                    to={'/account/' + item.offsetting_account}>{getAccountName(item.offsetting_account)}</Link>
+                                                → <Link
+                                                to={'/account/' + item.account}>{getAccountName(item.account)}</Link>
+                                            </div>,
+                                        Date: (item) => item.date,
+                                    }
+                                }
+                            />
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </React.Fragment>

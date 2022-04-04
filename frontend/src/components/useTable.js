@@ -6,6 +6,7 @@ export default function AbstractTable(props) {
         children,
         items,
         headBodyMap,
+        restEnpointName,
         ...other
     } = props;
 

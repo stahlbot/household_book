@@ -86,6 +86,7 @@ function BookingList(props) {
                     </Table>
                     <AbstractTable
                         items={props.bookings}
+                        restEndpointName={"bookings"}
                         headBodyMap={
                             {
                                 ID: (item) => item.id,

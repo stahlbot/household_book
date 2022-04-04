@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Grid, Paper, Typography} from "@material-ui/core";
+import {Card, CardContent, CardHeader, Divider, Grid, Paper, Typography} from "@material-ui/core";
 import BookingForm from "../Bookings/BookingForm";
 import BookingList from "../Bookings/BookingList";
 import BalanceDisplay from "../BalanceDisplay";
 import IconButton from "@material-ui/core/IconButton";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import AbstractTable from "../useTable";
+import {Link} from "react-router-dom";
 
 export default function Account(props) {
     const [account, setAccount] = useState({})
@@ -75,7 +77,29 @@ export default function Account(props) {
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                    <BookingList bookings={bookings} setBookings={setBookings} getAccountName={getAccountName} accounts={accounts}/>
+                    <Card>
+                        <CardHeader title={"Bookings"}/>
+                        <Divider/>
+                        <CardContent>
+                            <AbstractTable
+                                items={bookings}
+                                setItems={setBookings}
+                                restEndpointName={"bookings"}
+                                headBodyMap={
+                                    {
+                                        ID: (item) => item.id,
+                                        Name: (item) => item.text,
+                                        Vorgang: (item) =>
+                                            <div>
+                                                {parseFloat(item.amount).toFixed(2)}€ <br/>
+                                                → <Link to={'/account/' + item.account}>{getAccountName(item.account)}</Link>
+                                            </div>,
+                                        Date: (item) => item.date,
+                                    }
+                                }
+                            />
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </React.Fragment>

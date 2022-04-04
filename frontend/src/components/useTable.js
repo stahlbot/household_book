@@ -5,6 +5,7 @@ export default function AbstractTable(props) {
     const {
         children,
         items,
+        setItems,
         headBodyMap,
         restEnpointName,
         ...other

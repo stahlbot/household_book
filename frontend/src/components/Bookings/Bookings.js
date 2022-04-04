@@ -62,6 +62,7 @@ export default function Bookings() {
                         <CardContent>
                             <AbstractTable
                                 items={bookings}
+                                setItems={setBookings}
                                 restEndpointName={"bookings"}
                                 headBodyMap={
                                     {

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
-    Button,
+    Button, Card, CardContent, CardHeader, Divider,
     Paper,
     Table,
     TableBody,
@@ -29,15 +29,15 @@ const useStyles = makeStyles({
 export default function Accounts(props) {
     const classes = useStyles();
 
-    const [state, setState] = useState({accounts: []});
-    const [account, setAccount] = useState({});
+    const [accounts, setAccounts] = useState([]);
+    const [newAccount, setNewAccount] = useState({});
 
     // get all accounts when the page is rendered
     useEffect(() => {
         fetch("api/accounts")
             .then((response) => response.json())
             .then((data) => {
-                setState({accounts: data})
+                setAccounts(data)
             });
     }, []);
 
@@ -80,7 +80,7 @@ export default function Accounts(props) {
         }
 
         return (
-            <TableRow component={Link} to={'/accounts/'+account.id} hover key={account.id}>
+            <TableRow component={Link} to={'/accounts/' + account.id} hover key={account.id}>
                 <TableCell>{account.id}</TableCell>
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.get_account_type_display}</TableCell>
@@ -111,7 +111,7 @@ export default function Accounts(props) {
             open: true,
             edit: false,
         });
-        setAccount({});
+        setNewAccount({});
     };
 
     const handleClickEdit = (account) => {
@@ -120,7 +120,7 @@ export default function Accounts(props) {
             open: true,
             edit: true,
         });
-        setAccount(account);
+        setNewAccount(account);
     };
 
     const handleClose = () => {
@@ -131,9 +131,9 @@ export default function Accounts(props) {
     };
 
     const saveNewAccount = (acc) => {
-        let accounts = state.accounts
-        accounts.push(acc)
-        setState({accounts: accounts})
+        setAccounts(
+            [acc, ...accounts]
+        );
 
         setDialog({
             ...dialog,
@@ -146,34 +146,39 @@ export default function Accounts(props) {
         fetch("api/accounts")
             .then((response) => response.json())
             .then((data) => {
-                setState({accounts: data})
+                setAccounts(data)
             });
     }
 
 
     return (
-        <Paper>
-            <Toolbar>
-                <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>}
-                        onClick={handleClickNew}>
-                    New
-                </Button>
-                <NewAccountDialog handleClose={handleClose} onSaveNew={saveNewAccount} setDialog={setDialog}
-                                  dialog={dialog} setAccount={setAccount} account={account} updateList={updateList}/>
-            </Toolbar>
-            <AbstractTable
-                items={state.accounts}
-                restEndpointName={"accounts"}
-                headBodyMap={
-                    {
-                        ID: (item) => item.id,
-                        Name: (item) => <Link to={'/account/'+item.id}>{item.name}</Link>,
-                        Type: (item) => item.get_account_type_display,
-                        "Created At": (item) => item.created_at,
-                        "Balance": (item) => <BalanceDisplay account={item}/>,
+        <Card>
+            <CardHeader title={"Accounts"}/>
+            <Divider/>
+            <CardContent>
+                <Toolbar>
+                    <Button aria-label="add" color={"primary"} variant={"outlined"} startIcon={<AddIcon/>}
+                            onClick={handleClickNew}>
+                        New
+                    </Button>
+                    <NewAccountDialog handleClose={handleClose} onSaveNew={saveNewAccount} setDialog={setDialog}
+                                      dialog={dialog} setAccount={setNewAccount} account={newAccount}
+                                      updateList={updateList}/>
+                </Toolbar>
+                <AbstractTable
+                    items={accounts}
+                    restEndpointName={"accounts"}
+                    headBodyMap={
+                        {
+                            ID: (item) => item.id,
+                            Name: (item) => <Link to={'/account/' + item.id}>{item.name}</Link>,
+                            Type: (item) => item.get_account_type_display,
+                            "Created At": (item) => item.created_at,
+                            "Balance": (item) => <BalanceDisplay account={item}/>,
+                        }
                     }
-                }
-            />
-        </Paper>
+                />
+            </CardContent>
+        </Card>
     );
 }

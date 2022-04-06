@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BookingForm(props) {
   const classes = useStyles();
-
+  const firstFieldRef = React.useRef();
 
   const {
     values,
@@ -58,10 +58,12 @@ export default function BookingForm(props) {
       .then((response) => response.json())
       .then((data) => {
         // props.onSaveNew(data)
-        props.onSave(data)
-        resetForm()
+        props.onSave(data);
+        resetForm();
+        firstFieldRef.current.focus();
       });
   }
+
 
   return (
 
@@ -79,6 +81,8 @@ export default function BookingForm(props) {
                 label="Amount"
                 value={values.amount}
                 onChange={handleInputChange}
+                autoFocus={true}
+                inputRef={firstFieldRef}
               />
             </Grid>
             <Grid item xs={2}>
